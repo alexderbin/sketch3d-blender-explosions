@@ -1,0 +1,60 @@
+# Passport of the Effects component (ARCHITECTURE.md). The code lives in this folder. Explosions in a frame are currently
+# placed by the take (the Time component calls bl_fx.explosion per the "explosions:" events, explosions_3d: true); the
+# assets are baked by a separate command under guard heavy.
+component: fx
+version: 1
+owner: component maintainers
+bench: bench/check.py                  # levels, screen size and layers of the explosions on the stand against golden.json; the cost is bench/bench.py
+steps:
+  explosions:
+    section: time
+    kind: animates
+    reads: [time, cameras]              # events and frame cameras come from the "take" step (blasts.json in the take folder; cameras.json: take_NNN with a frame)
+    may_read: [site, light]          # site — soil and ground (the "terrain" relief); light — the node exposure and night (the light plan, provided by the "light" step): the effects strength is screen-based
+    writes: [time]                       # objects of the take's frames: flash, body (.vdb), soil, clods, sparks, glow — visibility keys per frame; scorch on the ground
+    build: steps.py:build_explosions    # Blender: bl_fx.explosion for every frame of the take → objects with keys in the scene (the old path — the take calls bl_fx.explosion per frame)
+    keys: {level: auto, seed: 0, exposure: null, scorch: true, wind: null, cards: null, look: full}
+    values: {level: [auto, close, medium, far, very_far], seed: int, exposure: float, scorch: bool, wind: list, cards: [none, auto, medium, all], look: [full, stand_in]}
+    profiles: {sketch: {look: stand_in}}   # sketch — stand-ins; test and final — the full explosion (cards — the cards knob, as now)
+    description: {level: "body detail level: auto — by the screen size of the body relative to each frame's camera (knowledge: close ≥ 150 px — a high-level body, medium ≥ 40 and far ≥ 8 — a low-level one, very_far — no body); a name — forced for all frames",
+               seed: "an addition to the event seed (clods, body rotation); 0 — as in the old path (the event number)",
+               exposure: "EV of the light node, if there is no \"light\" step or another value is needed (by default — from the light plan)",
+               scorch: "a soot patch on the ground from the explosion frame (bl_fx.scorch: follows the relief, a ragged edge, grows with the fire)",
+               wind: "[ux, uy] — m/s at 10 m (drift of the explosion clouds and the lean of burning columns; the profile near the ground is logarithmic); 0 — calm; by default — the wind of the light plan (fires.wind × 10 m/s)",
+               cards: "cards instead of volumes (library/fx/cards, bl_fx_cards.py) — none | auto (far and very_far) | medium (everything below close) | all; by default — bl_fx.CARD_MODE (medium)",
+               look: "full — the full explosion (volumes, cards, lamps, clods, scorch); stand_in — sketch stand-ins (stand_in.py): an object per layer sized and timed by the similarity law and the bake summary — fire as a ball (sk_kind fx), smoke as an ellipsoid (smoke), dust as a dome (dust), burning as a cone and a column; visibility, position and scale keys per take frame, wind — drift and shear; the knobs level, cards, exposure, scorch have no effect"}
+    hint: "explosions come after \"take\" (the events and frame cameras) and after \"light\" (the node exposure: the effects strength is screen-based, the \"light\" step removes the scene lamps); changing the light rebuilds light, explosions and frames while the take stays cached; a take with \"explosions:\" in its description is needed"
+    # journal statistics (stats): explosions — how many events were built, objects — effect objects in the scene, levels — levels per frame as "level:frames", skipped — events without knowledge or an asset of the kind, exposure — the EV by which the strength was computed;
+    # look: stand_in — layers as "class:frames", box_err — the stand-in mesh frame against the law in several frames (a fraction of the size)
+    code: [library/fx/explosions.json]
+    cost: medium
+    on_fail: fallback                 # no knowledge or asset of the kind — the event is skipped (yields "skipped"); fallback balls are placed only by the old path (the take)
+    recipes: [EF-10]
+  fx_knowledge:
+    section: time
+    kind: output
+    reads: []
+    writes: []                            # writes no model section; the file is library/fx/explosions.json (knowledge + baked data for Blender, there is no yaml in Blender): `writes` accepts only sections, no paths
+    command: ["{py}", -m, components.fx.fx_bake, compile]
+    code: [library/fx/explosions.yaml]
+    cost: light
+    on_fail: stop
+  fx_bake:
+    section: time
+    kind: output
+    reads: []
+    writes: []                            # library/fx/<asset>/<level>/cache (OpenVDB, after cleanup only the shader channels, half), stats.json, meta.yaml
+    command: ["{py}", -m, components.fx.fx_bake, bake, "{asset}", "--level={level}"]
+    keys: {level: all}
+    code: [library/fx/explosions.yaml]
+    cost: heavy                        # ~100 s, a peak of ~3.6 GB per asset — under guard heavy
+    on_fail: stop
+  fx_cards:
+    section: time
+    kind: output
+    reads: []
+    writes: []                            # library/fx/cards/<kind|combustion>: PNG atlases and card.json with the source fingerprint (card_source.py)
+    command: ["{py}", -m, components.fx.fx_bake, cards, --stale]
+    code: [library/fx/explosions.json]
+    cost: heavy                        # ~2–3 min per card (Blender) — under guard heavy; after fx_bake bake it runs by itself for the cards of the re-baked asset
+    on_fail: stop

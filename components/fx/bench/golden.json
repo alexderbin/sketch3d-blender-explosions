@@ -1,0 +1,279 @@
+{
+ "projectile day snow 18": [
+  {
+   "t": 0.2,
+   "level": "close",
+   "px": 407,
+   "layers": [
+    "flash",
+    "body",
+    "glow",
+    "soil",
+    "clods",
+    "sparks"
+   ]
+  },
+  {
+   "t": 1.0,
+   "level": "close",
+   "px": 407,
+   "layers": [
+    "body",
+    "soil",
+    "clods"
+   ]
+  }
+ ],
+ "projectile day snow 45": [
+  {
+   "t": 0.2,
+   "level": "close",
+   "px": 164,
+   "layers": [
+    "flash",
+    "body",
+    "glow",
+    "soil",
+    "clods",
+    "sparks"
+   ]
+  },
+  {
+   "t": 1.0,
+   "level": "close",
+   "px": 164,
+   "layers": [
+    "body",
+    "soil",
+    "clods"
+   ]
+  }
+ ],
+ "projectile day snow 120": [
+  {
+   "t": 0.2,
+   "level": "medium",
+   "px": 62,
+   "layers": [
+    "flash",
+    "card",
+    "glow",
+    "clods",
+    "sparks"
+   ]
+  },
+  {
+   "t": 1.0,
+   "level": "medium",
+   "px": 62,
+   "layers": [
+    "card",
+    "clods"
+   ]
+  }
+ ],
+ "projectile day snow 400": [
+  {
+   "t": 0.2,
+   "level": "far",
+   "px": 19,
+   "layers": [
+    "flash",
+    "card",
+    "glow",
+    "sparks"
+   ]
+  },
+  {
+   "t": 1.0,
+   "level": "far",
+   "px": 19,
+   "layers": [
+    "card"
+   ]
+  }
+ ],
+ "projectile day snow 1500": [
+  {
+   "t": 0.2,
+   "level": "very_far",
+   "px": 5,
+   "layers": [
+    "flash",
+    "card",
+    "glow"
+   ]
+  },
+  {
+   "t": 1.0,
+   "level": "very_far",
+   "px": 5,
+   "layers": [
+    "card"
+   ]
+  }
+ ],
+ "grenade night snow 15": [
+  {
+   "t": 0.2,
+   "level": "close",
+   "px": 161,
+   "layers": [
+    "flash",
+    "body",
+    "soil",
+    "clods",
+    "sparks"
+   ]
+  },
+  {
+   "t": 1.0,
+   "level": "close",
+   "px": 161,
+   "layers": [
+    "body",
+    "soil",
+    "clods"
+   ]
+  }
+ ],
+ "grenade night snow 60": [
+  {
+   "t": 0.2,
+   "level": "medium",
+   "px": 41,
+   "layers": [
+    "flash",
+    "card",
+    "clods",
+    "sparks"
+   ]
+  },
+  {
+   "t": 1.0,
+   "level": "medium",
+   "px": 41,
+   "layers": [
+    "card",
+    "clods"
+   ]
+  }
+ ],
+ "fuel day ground 70": [
+  {
+   "t": 0.2,
+   "level": "close",
+   "px": 299,
+   "layers": [
+    "flash",
+    "body",
+    "glow",
+    "combustion",
+    "sparks"
+   ]
+  },
+  {
+   "t": 1.0,
+   "level": "close",
+   "px": 299,
+   "layers": [
+    "body",
+    "glow",
+    "combustion"
+   ]
+  }
+ ],
+ "airburst day ground 70": [
+  {
+   "t": 0.2,
+   "level": "medium",
+   "px": 71,
+   "layers": [
+    "flash",
+    "card",
+    "glow",
+    "sparks"
+   ]
+  },
+  {
+   "t": 1.0,
+   "level": "medium",
+   "px": 71,
+   "layers": [
+    "card"
+   ]
+  }
+ ],
+ "fire_ball night ground 20": [
+  {
+   "t": 0.2,
+   "level": "close",
+   "px": 204,
+   "layers": [
+    "flash",
+    "body",
+    "glow",
+    "sparks"
+   ]
+  },
+  {
+   "t": 1.0,
+   "level": "close",
+   "px": 204,
+   "layers": [
+    "body",
+    "sparks"
+   ]
+  }
+ ],
+ "napalm day ground 30": [
+  {
+   "t": 0.2,
+   "level": "close",
+   "px": 216,
+   "layers": [
+    "flash",
+    "body",
+    "glow",
+    "combustion",
+    "combustion",
+    "combustion",
+    "sparks"
+   ]
+  },
+  {
+   "t": 4.0,
+   "level": "close",
+   "px": 216,
+   "layers": [
+    "body",
+    "combustion",
+    "combustion",
+    "combustion",
+    "combustion",
+    "combustion",
+    "combustion",
+    "combustion",
+    "combustion"
+   ]
+  }
+ ],
+ "blaze night ground 20": [
+  {
+   "t": 0.2,
+   "level": "close",
+   "px": 374,
+   "layers": [
+    "combustion"
+   ]
+  },
+  {
+   "t": 4.0,
+   "level": "close",
+   "px": 374,
+   "layers": [
+    "combustion"
+   ]
+  }
+ ]
+}
